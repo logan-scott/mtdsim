@@ -1,9 +1,7 @@
 # MTD-vs-AI Attacker Simulation (`mtdsim`)
 
 A reproducible, well-tested Monte Carlo simulation that quantifies how **Moving
-Target Defense (MTD)** degrades an **adaptive AI-driven attacker**. It produces
-the publication-ready figures and tables for the IEEE/INTCEC 2026 paper and the
-PhD dissertation *Moving Target Defense Against AI Exploits*.
+Target Defense (MTD)** degrades an **adaptive AI-driven attacker**.
 
 The headline result is the **mutation-frequency vs. operational-overhead
 trade-off**: as the defender mutates observable system attributes more often,
