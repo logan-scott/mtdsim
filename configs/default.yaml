@@ -1,0 +1,77 @@
+# ---------------------------------------------------------------------------
+# Default configuration for the MTD-vs-AI attacker simulation.
+#
+# Every parameter the model consumes lives here (no magic numbers in code).
+# `configs/paper.yaml` overrides a subset of these for the publication run.
+# All values are validated on load by mtdsim.config.load_config().
+# ---------------------------------------------------------------------------
+
+# Master seed. Per-trial seeds are derived deterministically from this via
+# numpy.random.SeedSequence, so identical (seed, config) => identical results,
+# independent of the number of parallel workers.
+seed: 20260614
+
+system:
+  n_assets: 8                 # N: real assets; exactly one is the vulnerable target.
+  decoy_ratio: 0.5            # decoys added = round(decoy_ratio * n_assets) when deception is enabled.
+  attribute_space_size: 1000000   # size of the value space per observable attribute (collisions ~ negligible).
+
+defender:
+  # Per-tick probability that a mutation event fires. f = 0.0 => static perimeter defense.
+  mutation_frequency: 0.0
+  # Fraction of assets each enabled attribute-technique reconfigures per mutation event.
+  mutation_coverage: 1.0
+  # Techniques that mutate an observable attribute. Valid names:
+  #   port_rotation -> port, endpoint_mutation -> endpoint_path,
+  #   shuffling -> ip_binding, service_diversity -> service_fingerprint,
+  #   deception -> manages/rotates decoy assets.
+  enabled_techniques: [port_rotation, endpoint_mutation, shuffling, service_diversity]
+  # Base operational cost charged per changed attribute on a mutation event.
+  per_mutation_cost: 1.0
+  # Relative cost weight per technique (shuffling/deception cost more: connection resets,
+  # decoy maintenance). Overhead += per_mutation_cost * weight * (#attributes changed).
+  technique_cost_weights:
+    port_rotation: 1.0
+    endpoint_mutation: 1.0
+    shuffling: 3.0
+    service_diversity: 2.0
+    deception: 2.5
+
+attacker:
+  # Adaptive attacker re-plans efficiently (resumes from recon, learns to disambiguate
+  # decoys). Non-adaptive attacker restarts with a fixed replanning penalty and never learns.
+  adaptive: true
+  # Number of assets probed concurrently during reconnaissance (<= total assets).
+  # null => probe all assets (real + decoys).
+  parallelism: null
+  # Mean stage durations in ticks (stochastic; see stage_time_cv).
+  recon_time: 3
+  identify_time: 2
+  exploit_dev_time: 4
+  exploit_exec_time: 2
+  # Coefficient of variation for the (clamped-normal) stage-duration sampler.
+  stage_time_cv: 0.2
+  # Base probability of correctly identifying the real target with no deception/diversity.
+  identify_base_accuracy: 0.95
+  # How strongly each active decoy / enabled service-diversity reduces identification accuracy.
+  decoy_confusion_weight: 0.6
+  diversity_confusion_weight: 0.5
+  # Adaptive learning: identification accuracy gained per informative encounter, capped.
+  learning_rate: 0.08
+  max_identify_accuracy: 0.99
+  # Extra idle ticks a non-adaptive attacker burns on every forced re-plan.
+  replan_penalty: 6
+  # Source of the adaptive learning gain (reviewer item C2a):
+  #   decoy_encounters (default) — learn only from committing-to-and-discarding a
+  #     decoy; mutation pressure alone never changes accuracy.
+  #   rounds — LEGACY perverse coupling (any forced re-recon helps); use only to
+  #     reproduce pre-revision numbers (see configs/legacy.yaml).
+  #   none — disable adaptive learning.
+  learning_signal: decoy_encounters
+  # Decouple service-diversity confusion from the mutating set (M6 decomposition only).
+  # null => derive from enabled_techniques.
+  diversity_confusion_override: null
+
+engine:
+  horizon: 200                # T: trial ends in "no compromise" once this tick is reached.
+  n_trials: 1000              # trials per configuration.

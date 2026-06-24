@@ -1,0 +1,4 @@
+max_frequency,n_points,knee_frequency,knee_overhead,knee_asp
+0.2,12,0.12,1118.064,0.343
+0.3,13,0.15,1566.936,0.147
+0.5,14,0.2,2199.92,0.03

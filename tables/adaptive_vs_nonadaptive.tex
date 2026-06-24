@@ -1,0 +1,40 @@
+% Requires \usepackage{booktabs}
+\begin{table}[t]
+\centering
+\caption{Adaptive versus non-adaptive attacker across the mutation-frequency sweep. The adaptive attacker re-plans efficiently and learns to disambiguate decoys, sustaining higher ASP, but MTD degrades both.}
+\label{tab:adaptive_vs_nonadaptive}
+\begin{tabular}{lrrrrr}
+\toprule
+Attacker & $f$ & ASP & med.\ TTC & re-recons & overhead \\
+\midrule
+adaptive & 0 & 1.000 & 12.0 & 0.00 & 0.0 \\
+adaptive & 0.0025 & 1.000 & 13.0 & 0.15 & 3.1 \\
+adaptive & 0.005 & 1.000 & 14.0 & 0.28 & 5.8 \\
+adaptive & 0.01 & 1.000 & 18.0 & 0.61 & 12.1 \\
+adaptive & 0.02 & 1.000 & 21.0 & 1.37 & 29.5 \\
+adaptive & 0.04 & 0.995 & 31.0 & 3.97 & 94.5 \\
+adaptive & 0.06 & 0.932 & 48.5 & 8.95 & 241.8 \\
+adaptive & 0.08 & 0.795 & 71.0 & 15.64 & 477.3 \\
+adaptive & 0.1 & 0.528 & 84.5 & 23.41 & 800.4 \\
+adaptive & 0.12 & 0.343 & 96.0 & 29.63 & 1118.1 \\
+adaptive & 0.15 & 0.147 & 108.0 & 36.16 & 1566.9 \\
+adaptive & 0.2 & 0.030 & 87.5 & 41.57 & 2199.9 \\
+adaptive & 0.3 & 0.003 & 159.0 & 45.89 & 3354.0 \\
+adaptive & 0.5 & 0.000 & -- & 48.81 & 5604.7 \\
+non-adaptive & 0 & 1.000 & 12.0 & 0.00 & 0.0 \\
+non-adaptive & 0.0025 & 1.000 & 13.0 & 0.15 & 3.6 \\
+non-adaptive & 0.005 & 0.999 & 14.0 & 0.29 & 7.4 \\
+non-adaptive & 0.01 & 1.000 & 24.0 & 0.61 & 16.7 \\
+non-adaptive & 0.02 & 0.998 & 27.0 & 1.44 & 44.5 \\
+non-adaptive & 0.04 & 0.952 & 48.0 & 3.76 & 148.3 \\
+non-adaptive & 0.06 & 0.787 & 68.0 & 7.22 & 348.6 \\
+non-adaptive & 0.08 & 0.531 & 84.0 & 10.91 & 627.8 \\
+non-adaptive & 0.1 & 0.328 & 97.0 & 13.83 & 940.7 \\
+non-adaptive & 0.12 & 0.206 & 96.0 & 15.49 & 1208.2 \\
+non-adaptive & 0.15 & 0.065 & 102.0 & 17.48 & 1633.6 \\
+non-adaptive & 0.2 & 0.012 & 101.5 & 18.70 & 2223.8 \\
+non-adaptive & 0.3 & 0.000 & -- & 19.53 & 3364.6 \\
+non-adaptive & 0.5 & 0.000 & -- & 20.01 & 5603.1 \\
+\bottomrule
+\end{tabular}
+\end{table}

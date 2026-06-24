@@ -1,0 +1,61 @@
+% Requires \usepackage{booktabs}
+\begin{table}[t]
+\centering
+\caption{Cost-weight sensitivity of the lever ranking over a factorial of the four mutating-technique weights (port p, endpoint e, shuffling s, diversity v $\in\{1,3\}$) and the decoy technique (deception d $\in\{1,2.5,5\}$), plus an all-equal control, with lean deception candidate sets included. `var.\ win.' marks settings where a winning technique (port/endpoint/diversity) costs more than a port swap. For each setting: the cheapest technique set at each ASP target, whether a 1--2-technique set dominates, and whether the deception stack is the most expensive. Overhead recomputed analytically from one frontier run.}
+\label{tab:cost_weight_sensitivity}
+\begin{tabular}{lllllll}
+\toprule
+p e s v d weights & var.\ win. & cheapest @0.50 & cheapest @0.25 & cheapest @0.10 & lean dom. & decep.\ worst \\
+\midrule
+all-equal (control) & False & port & port & +diversity & False & False \\
+p1 e1 s1 v1 d1 & False & port & port & +diversity & False & False \\
+p1 e1 s1 v1 d2.5 & False & port & port & +diversity & False & False \\
+p1 e1 s1 v1 d5 & False & port & port & +diversity & False & False \\
+p1 e1 s1 v3 d1 & True & port & port & +endpoint & True & True \\
+p1 e1 s1 v3 d2.5 & True & port & port & +endpoint & True & False \\
+p1 e1 s1 v3 d5 & True & port & port & +endpoint & True & False \\
+p1 e1 s3 v1 d1 & False & port & port & +endpoint & True & False \\
+p1 e1 s3 v1 d2.5 & False & port & port & +endpoint & True & False \\
+p1 e1 s3 v1 d5 & False & port & port & +endpoint & True & False \\
+p1 e1 s3 v3 d1 & True & port & port & +endpoint & True & True \\
+p1 e1 s3 v3 d2.5 & True & port & port & +endpoint & True & True \\
+p1 e1 s3 v3 d5 & True & port & port & +endpoint & True & False \\
+p1 e3 s1 v1 d1 & True & port & port & port+decep & True & False \\
+p1 e3 s1 v1 d2.5 & True & port & port & +diversity & False & False \\
+p1 e3 s1 v1 d5 & True & port & port & +diversity & False & False \\
+p1 e3 s1 v3 d1 & True & port & port & port+decep & True & False \\
+p1 e3 s1 v3 d2.5 & True & port & port & +shuffling & False & False \\
+p1 e3 s1 v3 d5 & True & port & port & +shuffling & False & False \\
+p1 e3 s3 v1 d1 & True & port & port & port+decep & True & False \\
+p1 e3 s3 v1 d2.5 & True & port & port & port+decep & True & False \\
+p1 e3 s3 v1 d5 & True & port & port & +diversity & False & False \\
+p1 e3 s3 v3 d1 & True & port & port & port+decep & True & True \\
+p1 e3 s3 v3 d2.5 & True & port & port & port+decep & True & True \\
+p1 e3 s3 v3 d5 & True & port & port & +endpoint & True & False \\
+p3 e1 s1 v1 d1 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e1 s1 v1 d2.5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e1 s1 v1 d5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e1 s1 v3 d1 & True & +shuffling & +shuffling & +shuffling & False & False \\
+p3 e1 s1 v3 d2.5 & True & +shuffling & +shuffling & +shuffling & False & False \\
+p3 e1 s1 v3 d5 & True & +shuffling & +shuffling & +shuffling & False & False \\
+p3 e1 s3 v1 d1 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e1 s3 v1 d2.5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e1 s3 v1 d5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e1 s3 v3 d1 & True & +endpoint & +endpoint & +endpoint & True & False \\
+p3 e1 s3 v3 d2.5 & True & +endpoint & +endpoint & +endpoint & True & False \\
+p3 e1 s3 v3 d5 & True & +endpoint & +endpoint & +endpoint & True & False \\
+p3 e3 s1 v1 d1 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e3 s1 v1 d2.5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e3 s1 v1 d5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e3 s1 v3 d1 & True & +diversity & +shuffling & +diversity & False & False \\
+p3 e3 s1 v3 d2.5 & True & +diversity & +shuffling & +diversity & False & False \\
+p3 e3 s1 v3 d5 & True & +diversity & +shuffling & +diversity & False & False \\
+p3 e3 s3 v1 d1 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e3 s3 v1 d2.5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e3 s3 v1 d5 & True & +diversity & +diversity & +diversity & False & False \\
+p3 e3 s3 v3 d1 & True & port & port & +diversity & False & False \\
+p3 e3 s3 v3 d2.5 & True & port & port & +diversity & False & False \\
+p3 e3 s3 v3 d5 & True & port & port & +diversity & False & False \\
+\bottomrule
+\end{tabular}
+\end{table}

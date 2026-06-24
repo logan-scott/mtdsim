@@ -1,0 +1,16 @@
+% Requires \usepackage{booktabs}
+\begin{table}[t]
+\centering
+\caption{Operational overhead each cumulative technique set needs to reach a target ASP (matched ASP; '--' = unreachable in range). Lower overhead is cheaper; frequency-only on 4 techniques is cheaper wherever its entry is smallest.}
+\label{tab:c1_matched_asp}
+\begin{tabular}{lrrrrrrr}
+\toprule
+ASP target & port & port+decep & +endpoint & port+endp+decep & +shuffling & +diversity & +deception \\
+\midrule
+0.75 & 289 & 514 & 319 & 421 & 551 & 532 & 535 \\
+0.50 & 480 & 929 & 547 & 797 & 908 & 848 & 1046 \\
+0.25 & 672 & 1600 & 799 & 1323 & 1346 & 1331 & 1678 \\
+0.10 & -- & 2029 & 1156 & 1823 & 1929 & 1821 & 2488 \\
+\bottomrule
+\end{tabular}
+\end{table}

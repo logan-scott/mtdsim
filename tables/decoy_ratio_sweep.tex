@@ -1,0 +1,16 @@
+% Requires \usepackage{booktabs}
+\begin{table}[t]
+\centering
+\caption{Decoy-ratio sensitivity of the deception penalty. Overhead the 5-technique deception stack needs over the cheapest (decoy-invariant) technique set to reach ASP 0.25, as decoy provisioning varies. The gap grows with the decoy ratio, bounding the ``structural'' deception cost to the provisioning level.}
+\label{tab:decoy_ratio_sweep}
+\begin{tabular}{lrrlrr}
+\toprule
+decoy ratio & \#decoys & deception overhead & cheapest set & cheapest overhead & gap \\
+\midrule
+0 & 0 & 1331.0 & port & 672.1 & 658.9 \\
+0.25 & 2 & 1540.4 & port & 672.1 & 868.3 \\
+0.5 & 4 & 1678.5 & port & 672.1 & 1006.4 \\
+1 & 8 & 2090.4 & port & 672.1 & 1418.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
