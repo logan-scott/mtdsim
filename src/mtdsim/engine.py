@@ -42,7 +42,7 @@ class TrialResult:
     recon_ticks: int  # ticks spent (re-)acquiring knowledge
     mutation_events: int  # ticks on which the defender fired >=1 technique
     total_assets: int  # n_real + n_decoys (for per-asset overhead normalization)
-    # Per-technique cumulative attribute-cells changed (reviewer item Ma). Lets
+    # Per-technique cumulative attribute-cells changed. Lets
     # overhead be recomputed under alternate cost weights without re-running.
     chg_port_rotation: int
     chg_endpoint_mutation: int
@@ -61,7 +61,7 @@ def run_trial(cfg: Config, seed: int) -> TrialResult:
     defender = Defender(cfg.defender)
     # Whether the attacker experiences service-diversity confusion is normally
     # derived from the mutating set, but can be overridden to decouple diversity's
-    # two channels (reviewer item M6).
+    # two channels.
     sdiv = "service_diversity" in cfg.defender.enabled_techniques
     if cfg.attacker.diversity_confusion_override is not None:
         sdiv = cfg.attacker.diversity_confusion_override

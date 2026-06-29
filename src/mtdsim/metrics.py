@@ -1,7 +1,7 @@
-"""Metrics — aggregation of trial outcomes into the dissertation's constructs.
+"""Metrics — aggregation of trial outcomes into the paper's constructs.
 
 Maps raw :class:`~mtdsim.engine.TrialResult` records to the quantities defined
-in the build spec / dissertation:
+in the build spec / paper:
 
 - **ASP** (attack success probability) = compromises / trials, with a Wilson
   score confidence interval (well-behaved near 0 and 1).
@@ -40,7 +40,7 @@ def wilson_interval(successes: int, n: int, z: float = Z_95) -> tuple[float, flo
 
     The bounds are clamped to ``[0, 1]``; in the degenerate cases of 0 or all
     successes the corresponding bound is pinned to exactly ``0.0``/``1.0`` so the
-    released CSVs never show spurious values like ``2.17e-19`` (reviewer minor).
+    released CSVs never show spurious values like ``2.17e-19``.
     """
     if n == 0:
         return (0.0, 0.0)
@@ -118,7 +118,7 @@ def aggregate(
         asp_ci_lo=asp_lo,
         asp_ci_hi=asp_hi,
         n_success=int(ttc_vals.size),  # successful trials behind the TTC statistics
-        ttc_small_n=bool(ttc_vals.size < TTC_SMALL_N),  # flag low-n TTC (reviewer minor)
+        ttc_small_n=bool(ttc_vals.size < TTC_SMALL_N),
         ttc_mean=ttc_mean,
         ttc_mean_ci_lo=ttc_mean_lo,
         ttc_mean_ci_hi=ttc_mean_hi,
@@ -186,7 +186,7 @@ def pareto_frontier(overhead: Sequence[float], asp: Sequence[float]) -> np.ndarr
     overhead). Point ``i`` is dominated if some other point is ``<=`` on both
     axes and strictly ``<`` on at least one. Ties are both kept. O(n^2); the grid
     here is small. Used to highlight the global frontier across technique sets
-    (reviewer item C1).
+    (experiment 6: frequency × technique count).
     """
     x = np.asarray(overhead, dtype=float)
     y = np.asarray(asp, dtype=float)

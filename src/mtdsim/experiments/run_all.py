@@ -36,13 +36,13 @@ from .common import ExperimentOutput, OutputLayout
 EXPERIMENTS: dict[str, Callable[..., ExperimentOutput]] = {
     "baseline": baseline.run,
     "frequency_sweep": frequency_sweep.run,
-    "frequency_by_technique_count": frequency_by_technique_count.run,  # reviewer C1
-    "cost_weight_sensitivity": cost_weight_sensitivity.run,  # reviewer Ma (+ round 3)
-    "decoy_ratio_sweep": decoy_ratio_sweep.run,  # reviewer round 3
+    "frequency_by_technique_count": frequency_by_technique_count.run,
+    "cost_weight_sensitivity": cost_weight_sensitivity.run,
+    "decoy_ratio_sweep": decoy_ratio_sweep.run,
     "ablation": ablation.run,
-    "diversity_channel_decomposition": diversity_channel_decomposition.run,  # reviewer M6
+    "diversity_channel_decomposition": diversity_channel_decomposition.run,
     "adaptive_vs_nonadaptive": adaptive.run,
-    "parallelism_sweep": parallelism_sweep.run,  # reviewer C2b
+    "parallelism_sweep": parallelism_sweep.run,
     "sensitivity": sensitivity.run,
 }
 

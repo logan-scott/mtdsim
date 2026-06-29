@@ -1,4 +1,4 @@
-"""Reviewer item M6: separate service_diversity's two channels.
+"""Separate service_diversity's two channels.
 
 ``service_diversity`` does two things at once: it mutates a 4th observable
 attribute (feeding the invalidation hazard) *and* it adds to the

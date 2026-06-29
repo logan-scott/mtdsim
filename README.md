@@ -17,7 +17,7 @@ rises. The simulation locates the Pareto frontier and its **knee**.
 
 ## Metric definitions
 
-These map one-to-one to the dissertation's *Definitions* section.
+These map one-to-one to the paper's *Definitions* section.
 
 | Term | Symbol | Definition (as implemented) |
 |---|---|---|
@@ -119,30 +119,17 @@ make test-fast       # pytest -m "not slow"
 All figures are grayscale and print-safe (distinct line styles + markers, no
 color dependence), 300 dpi. Captions are auto-written to `figures/CAPTIONS.md`.
 
-### Revision experiments (address Reviewer 2)
+### Extended experiments
 
-These were added to support an honest rewrite; see **[`RESULTS-DELTA.md`](RESULTS-DELTA.md)**
-for the verdicts and **[`DECISIONS.md`](DECISIONS.md)** for the mechanics.
+See **[`DECISIONS.md`](DECISIONS.md)** for modeling rationale.
 
-| Reviewer item | Experiment | Command | Figures / Tables | What it answers |
+| # | Experiment | Command | Figures / Tables | What it answers |
 |---|---|---|---|---|
-| **C1** (blocking) | **Frequency × technique count** | `mtdsim run frequency_by_technique_count` | `frontier_by_technique_count`; `tables/frequency_by_technique_count_matched_{overhead,asp}.*` | Is stacking techniques (esp. deception) ever cheaper than raising `f`? Builds the real diversity-vs-frequency frontier (round 4 adds non-cumulative **lean-deception** candidates `{port,deception}`, `{port,endpoint,deception}`). |
-| **Ma** | **Cost-weight sensitivity** | `mtdsim run cost_weight_sensitivity` | `cost_weight_sensitivity`; `tables/cost_weight_sensitivity.*` | Is the lever ranking an artifact of the asserted cost weights? Recomputes the frontier under a 5-way factorial over **all four mutating** weights (port/endpoint/shuffling/diversity, rounds 3–4) and the decoy weight + all-equal control, from one run. |
-| **R3** | **Decoy-ratio sweep** | `mtdsim run decoy_ratio_sweep` | `decoy_ratio_sweep`; `tables/decoy_ratio_sweep.*` | How does the structural deception penalty scale with decoy provisioning? Real frontier re-runs per `decoy_ratio`. |
-| **C2a** (blocking) | (mechanic, no new experiment) | — | — | Identification "learning" now comes only from genuine decoy encounters (`learning_signal`), not from MTD-forced re-recons. Re-run `adaptive_vs_nonadaptive`. |
-| **C2b** (blocking) | **Parallelism sweep** | `mtdsim run parallelism_sweep` | `parallelism_sweep`; `tables/parallelism_sweep.*` | Activates a genuine agent capability (concurrent multi-target probing) and reports how it shifts the MTD trade-off. |
-| **M6** | **Diversity channel decomposition** | `mtdsim run diversity_channel_decomposition` | `diversity_channel_decomposition`; `tables/diversity_channel_decomposition.*` | Splits `service_diversity` into its mutation vs. identification-confusion channels. |
-| **M3** | (extends frequency sweep) | `mtdsim run frequency_sweep` | `tables/frequency_sweep_knee_robustness.*` | How the Pareto knee moves as the sweep's max frequency is truncated; overhead now also reported per tick and per asset. |
-
-**Reproduce the pre-revision ("legacy") numbers** for auditing the deltas:
-
-```bash
-python -m mtdsim.experiments.run_all --config configs/legacy.yaml --outdir results_legacy \
-    --figures figures_legacy --tables tables_legacy
-```
-
-The only behavioral difference is `attacker.learning_signal: rounds` (the perverse
-coupling flagged as C2a).
+| 6 | **Frequency × technique count** | `mtdsim run frequency_by_technique_count` | `frontier_by_technique_count`; `tables/frequency_by_technique_count_matched_{overhead,asp}.*` | Is stacking techniques (esp. deception) ever cheaper than raising `f`? Includes non-cumulative lean-deception candidates `{port,deception}`, `{port,endpoint,deception}`. |
+| 7 | **Diversity channel decomposition** | `mtdsim run diversity_channel_decomposition` | `diversity_channel_decomposition`; `tables/diversity_channel_decomposition.*` | Splits `service_diversity` into its mutation vs. identification-confusion channels. |
+| 8 | **Parallelism sweep** | `mtdsim run parallelism_sweep` | `parallelism_sweep`; `tables/parallelism_sweep.*` | How concurrent multi-target probing (an AI-agent capability) shifts the MTD trade-off. |
+| 9 | **Cost-weight sensitivity** | `mtdsim run cost_weight_sensitivity` | `cost_weight_sensitivity`; `tables/cost_weight_sensitivity.*` | Is the lever ranking an artifact of the asserted cost weights? Factorial over all technique weights. |
+| 10 | **Decoy-ratio sweep** | `mtdsim run decoy_ratio_sweep` | `decoy_ratio_sweep`; `tables/decoy_ratio_sweep.*` | How the structural deception penalty scales with decoy provisioning. |
 
 ---
 
@@ -208,7 +195,7 @@ tooling, performs no reconnaissance/scanning, and never touches real systems,
 networks, or models. The attacker is modeled with stage timers, knowledge
 validity, and probabilities only. Every modeling assumption that could affect
 results is documented in [`DECISIONS.md`](DECISIONS.md) so the work is auditable
-and defensible for committee review.
+and defensible for review.
 
 ## License
 

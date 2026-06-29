@@ -1,4 +1,4 @@
-"""Grayscale, print-safe figures for the paper and dissertation.
+"""Grayscale, print-safe figures for the paper.
 
 Every figure is rendered without color dependence (distinct line styles and
 markers, grayscale fills), at 300 dpi, and saved as both ``.pdf`` (vector, for
@@ -458,7 +458,7 @@ def frontier_by_technique_count(df: pd.DataFrame, outdir: Path) -> dict[str, Any
 
 
 # --------------------------------------------------------------------------
-# C2b: parallelism sweep
+# Parallelism sweep
 # --------------------------------------------------------------------------
 def parallelism_sweep(df: pd.DataFrame, outdir: Path) -> dict[str, Any]:
     """ASP vs. mutation frequency, one line per probing parallelism."""
@@ -609,7 +609,7 @@ def cost_weight_sensitivity(df: pd.DataFrame, outdir: Path) -> dict[str, Any]:
 
 
 # --------------------------------------------------------------------------
-# Round 3: decoy-ratio sensitivity of the deception penalty
+# Decoy-ratio sensitivity of the deception penalty
 # --------------------------------------------------------------------------
 def decoy_ratio_sweep(df: pd.DataFrame, outdir: Path) -> dict[str, Any]:
     """Deception-vs-cheapest overhead gap at ASP 0.25 as a function of decoy ratio."""

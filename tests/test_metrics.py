@@ -17,7 +17,7 @@ from mtdsim.metrics import (
 def test_wilson_interval_bounds():
     lo, hi = wilson_interval(50, 100)
     assert 0.0 <= lo < 0.5 < hi <= 1.0
-    # Reviewer minor: degenerate endpoints are pinned to exactly 0.0 / 1.0 (no
+    # Degenerate endpoints are pinned to exactly 0.0 / 1.0 (no
     # spurious values like 2.17e-19 in the released CSVs).
     lo0, hi0 = wilson_interval(0, 100)
     lo1, hi1 = wilson_interval(100, 100)

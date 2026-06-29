@@ -1,4 +1,4 @@
-"""Reviewer round 3 (minor): decoy-ratio sensitivity of the deception penalty.
+"""Decoy-ratio sensitivity of the deception penalty.
 
 The "structural" deception cost (decoys enlarge the reconfigured surface) is set
 by `system.decoy_ratio`, which the cost-weight study held fixed at 0.5. Unlike

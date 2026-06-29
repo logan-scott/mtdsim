@@ -1,4 +1,4 @@
-"""Reviewer item C2b: parallel multi-target probing as a genuine agent capability.
+"""Parallel multi-target probing as a genuine agent capability.
 
 The attacker's ``parallelism`` (assets probed concurrently per reconnaissance
 round) is activated here as a study: an AI agent that scans many targets at once

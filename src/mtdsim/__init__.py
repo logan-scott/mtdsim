@@ -1,8 +1,7 @@
 """mtdsim — Monte Carlo simulation of Moving Target Defense (MTD) against an
 adaptive AI-driven attacker.
 
-The package quantifies the central trade-off studied in the dissertation
-*Moving Target Defense Against AI Exploits*: as the defender mutates observable
+The package quantifies the central trade-off: as the defender mutates observable
 system attributes more frequently (``mutation_frequency``), the attacker's
 **attack success probability (ASP)** and progress fall while **operational
 overhead** rises. The headline output is the Pareto frontier (overhead vs ASP)

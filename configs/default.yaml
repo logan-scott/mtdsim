@@ -61,14 +61,14 @@ attacker:
   max_identify_accuracy: 0.99
   # Extra idle ticks a non-adaptive attacker burns on every forced re-plan.
   replan_penalty: 6
-  # Source of the adaptive learning gain (reviewer item C2a):
+  # Source of the adaptive learning gain:
   #   decoy_encounters (default) — learn only from committing-to-and-discarding a
   #     decoy; mutation pressure alone never changes accuracy.
-  #   rounds — LEGACY perverse coupling (any forced re-recon helps); use only to
-  #     reproduce pre-revision numbers (see configs/legacy.yaml).
+  #   rounds — any forced re-recon raises accuracy (note: this lets mutation
+  #     pressure raise the attacker's accuracy). Kept for comparison.
   #   none — disable adaptive learning.
   learning_signal: decoy_encounters
-  # Decouple service-diversity confusion from the mutating set (M6 decomposition only).
+  # Decouple service-diversity confusion from the mutating set (decomposition only).
   # null => derive from enabled_techniques.
   diversity_confusion_override: null
 

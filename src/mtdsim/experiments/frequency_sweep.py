@@ -22,7 +22,7 @@ def _knee_robustness(cfg: Config, summary: pd.DataFrame) -> pd.DataFrame:
     """How the kneedle knee moves as the sweep's maximum frequency is restricted.
 
     The kneedle chord anchors on the sweep's max-frequency endpoint, so the knee
-    is sensitive to where the sweep stops (reviewer item M3). This reports the
+    is sensitive to where the sweep stops. This reports the
     knee over several truncations of the frequency range.
     """
     maxes = cfg.experiments.get(NAME, {}).get("knee_max_frequencies", DEFAULT_KNEE_MAX_FREQS)

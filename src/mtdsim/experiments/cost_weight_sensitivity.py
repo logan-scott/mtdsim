@@ -1,16 +1,15 @@
-"""Reviewer item Ma (+ rounds 3-4): cost-weight sensitivity of the lever ranking.
+"""Cost-weight sensitivity of the lever ranking.
 
 The headline cost-effectiveness claim — *deception is never the cheapest lever* —
 is computed from `defender.technique_cost_weights`, which are asserted. This
 experiment stress-tests it against a factorial of weight settings over the candidate
-frontier sets (the cumulative ablation sets **plus** the round-4 lean-deception sets
+frontier sets (the cumulative ablation sets **plus** the lean-deception sets
 `{port,deception}` and `{port,endpoint,deception}`).
 
 The grid varies all four **mutating** techniques
 (`port`, `endpoint`, `shuffling`, `service_diversity` ∈ {1,3}) and the **decoy**
 technique (`deception` ∈ {1,2.5,5}); deception is not a mutating technique (it rotates
-decoys). Round 3 added the winning mutators port/endpoint; round 4 (item b) also varies
-`service_diversity`, itself a frontier winner.
+decoys).
 
 **Key efficiency/correctness point.** ASP and the per-technique attribute-change counts
 are *independent of cost weights* (weights only scale overhead). So the frontier is run
@@ -58,9 +57,9 @@ def weight_settings(cfg: Config) -> list[dict[str, Any]]:
     The factorial varies all four **mutating** techniques
     (``port``, ``endpoint``, ``shuffling``, ``service_diversity`` ∈ {1,3}) and the
     **decoy** technique (``deception`` ∈ {1,2.5,5}); ``deception`` is not a mutating
-    technique (it rotates decoys). Round 3 added the winning mutators port/endpoint;
-    round 4 (reviewer item b) also varies ``service_diversity`` — itself the cheapest
-    set in several port-expensive cells — so every frontier *winner* is stress-tested.
+    technique (it rotates decoys). The factorial also varies ``service_diversity`` —
+    itself the cheapest set in several port-expensive cells — so every frontier
+    *winner* is stress-tested.
     ``varies_winners`` flags settings where a winning technique (port/endpoint/diversity)
     costs more than a port swap.
     """
@@ -175,7 +174,7 @@ def _ranking_for_setting(base: pd.DataFrame, weights: dict[str, float]) -> dict[
         out[f"cheapest@{tgt}"] = cheapest
         out[f"cheapest_overhead@{tgt}"] = reachable[cheapest]
         out[f"deception_overhead@{tgt}"] = oh_by_set.get(stacked, float("nan"))
-        # Cheapest deception-CONTAINING set (round 4: not just the 5-stack).
+        # Cheapest deception-containing set (not just the 5-stack).
         dec_reach = {k: v for k, v in reachable.items() if k in deception_labels}
         out[f"cheapest_deception_overhead@{tgt}"] = (
             min(dec_reach.values()) if dec_reach else float("nan")
@@ -199,7 +198,7 @@ def run(cfg: Config, layout: OutputLayout, *, parallel: bool = False) -> Experim
     rows: list[dict[str, Any]] = []
     for s in settings:
         rank = _ranking_for_setting(base, s["weights"])
-        # Round 4: gap = (cheapest deception-CONTAINING set) - (overall cheapest set),
+        # Gap = (cheapest deception-containing set) - (overall cheapest set),
         # so gap > 0 means no deception set is the cheapest lever at ASP 0.25.
         gap_025 = rank.get("cheapest_deception_overhead@0.25", float("nan")) - rank.get(
             "cheapest_overhead@0.25", float("nan")
@@ -262,14 +261,14 @@ def run(cfg: Config, layout: OutputLayout, *, parallel: bool = False) -> Experim
     winners = summary[summary["varies_winners"]]
     cheapest_cols = ["cheapest@0.50", "cheapest@0.25", "cheapest@0.10"]
 
-    # Round 4: generalize "never cheapest" from the 5-stack to ANY deception-containing
-    # set (incl. the added lean-deception candidates {port,deception}, {port,endpoint,
+    # Generalize "never cheapest" from the 5-stack to ANY deception-containing
+    # set (incl. the lean-deception candidates {port,deception}, {port,endpoint,
     # deception}). This is the only test that could falsify "deception never cheapest".
     deception_labels = set(base.loc[base["has_deception"], "set_label"].unique())
     cheapest_seen = set(summary[cheapest_cols].to_numpy().ravel().tolist())
     deception_sets_ever_cheapest = sorted(deception_labels & cheapest_seen)
 
-    # Round 4 (item b): does "deception never cheapest" survive an expensive diversity?
+    # Does "deception never cheapest" survive an expensive diversity?
     div_expensive = summary[summary["diversity_weight"] > 1.0]
     div_exp_cheapest = set(div_expensive[cheapest_cols].to_numpy().ravel().tolist())
     deception_cheapest_when_diversity_expensive = sorted(deception_labels & div_exp_cheapest)
@@ -297,18 +296,18 @@ def run(cfg: Config, layout: OutputLayout, *, parallel: bool = False) -> Experim
         "deception_least_cost_effective_at_dec_weight_1": bool(
             summary.loc[summary["deception_weight"] == 1.0, "deception_least_cost_effective"].all()
         ),
-        # Round 3: does "lean wins" survive when the WINNING techniques are expensive?
+        # Does "lean wins" survive when the winning techniques are expensive?
         "n_winner_expensive_settings": int(len(winners)),
         "lean_dominates_when_winners_expensive": f"{int(winners['lean_dominates'].sum())}/{len(winners)}",
         "cheapest_at_0.25_when_winners_expensive": sorted(
             winners["cheapest@0.25"].unique().tolist()
         ),
-        # Round 4 (item a): is ANY deception-containing set ever the cheapest lever?
+        # Is ANY deception-containing set ever the cheapest lever?
         "deception_sets_ever_cheapest": deception_sets_ever_cheapest,
         "any_deception_set_ever_cheapest": bool(deception_sets_ever_cheapest),
         "deception_never_cheapest_all_settings": bool(not deception_sets_ever_cheapest),
         "min_gap_at_asp_0.25": float(summary["gap_at_asp_0.25"].min()),
-        # Round 4 (item b): survival when diversity (a frontier winner) is also expensive.
+        # Survival when diversity (a frontier winner) is also expensive.
         "n_diversity_expensive_settings": int(len(div_expensive)),
         "deception_cheapest_when_diversity_expensive": deception_cheapest_when_diversity_expensive,
         "baseline_weights_cheapest": baseline_cheapest,
