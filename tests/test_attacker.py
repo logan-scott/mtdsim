@@ -83,7 +83,7 @@ def test_identification_accuracy_drops_with_decoys():
 
 
 def test_learning_uses_decoy_encounters_not_rounds_by_default():
-    """C2a: the default signal learns from decoy encounters, not raw failures."""
+    """The default signal learns from decoy encounters, not raw failures."""
     sys = build_system(SystemConfig(n_assets=8, decoy_ratio=0.5), True, generator(1))
     att = Attacker(AttackerConfig(adaptive=True, learning_rate=0.05), False)
     p0 = att._p_correct(sys)
@@ -96,7 +96,7 @@ def test_learning_uses_decoy_encounters_not_rounds_by_default():
 
 
 def test_learning_invariant_no_decoys_no_diversity_is_flat():
-    """C2a invariant: with no decoys and diversity off, mutation pressure cannot
+    """With no decoys and diversity off, mutation pressure cannot
     change identification accuracy under the honest learning signals."""
     sys = build_system(SystemConfig(n_assets=8, decoy_ratio=0.0), False, generator(1))
     for signal in ("decoy_encounters", "none"):
@@ -107,15 +107,15 @@ def test_learning_invariant_no_decoys_no_diversity_is_flat():
         att.forced_recons = 50
         assert att._p_correct(sys) == base == att.cfg.identify_base_accuracy
 
-    # The legacy "rounds" signal VIOLATES the invariant (this is exactly the C2a
-    # bug): raw MTD-forced rounds perversely raise accuracy.
+    # The "rounds" signal violates the invariant: raw MTD-forced rounds
+    # perversely raise accuracy.
     legacy = Attacker(AttackerConfig(adaptive=True, learning_signal="rounds"), False)
     base = legacy._p_correct(sys)
     legacy.rounds_completed = 50
     assert legacy._p_correct(sys) > base
 
 
-def test_legacy_rounds_signal_reproduces_old_behavior():
+def test_rounds_signal_raises_accuracy_with_failed_cycles():
     sys = build_system(SystemConfig(n_assets=8, decoy_ratio=0.5), True, generator(1))
     att = Attacker(
         AttackerConfig(adaptive=True, learning_rate=0.05, learning_signal="rounds"), False

@@ -1,4 +1,4 @@
-"""Reviewer-2 revision mechanics: C2a learning, C2b parallelism, M6 channels,
+"""Extended experiments: learning signal, parallelism, diversity channels,
 and the new metric columns."""
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ def paper_small():
     return load_config("configs/paper.yaml").with_overrides(engine={"n_trials": 60})
 
 
-# -- C2a: learning-signal default + no perverse coupling -------------------
+# -- Learning-signal default + no perverse coupling ------------------------
 def test_learning_signal_default_is_decoy_encounters(paper_small):
     assert paper_small.attacker.learning_signal == "decoy_encounters"
 
@@ -57,7 +57,7 @@ def test_small_n_ttc_is_flagged(paper_small):
     assert row["ttc_small_n"] is True
 
 
-# -- C2b: parallelism is a real capability ---------------------------------
+# -- Parallelism is a real capability --------------------------------------
 def test_more_parallel_probing_raises_asp(paper_small):
     """At a fixed moderate frequency, probing more assets per recon should not
     hurt and generally helps the attacker (a genuine agent capability)."""
@@ -82,7 +82,7 @@ def test_parallelism_sweep_builds(paper_small):
     assert pars == {1, 2, 4, 8}
 
 
-# -- M6: service_diversity channel decomposition ---------------------------
+# -- Service_diversity channel decomposition -------------------------------
 def test_diversity_decomposition_isolates_channels(paper_small, tmp_path):
     layout = OutputLayout.create(tmp_path / "r", tmp_path / "f", tmp_path / "t")
     cfg = paper_small.with_overrides(engine={"n_trials": 300})
@@ -115,8 +115,8 @@ def test_diversity_confusion_override_decouples_from_mutating_set(paper_small):
     assert asp_conf < asp_base
 
 
-# -- C1: frontier experiment ----------------------------------------------
-def test_c1_frontier_runs_and_reports_verdict(paper_small, tmp_path):
+# -- Frontier experiment ---------------------------------------------------
+def test_frontier_runs_and_reports_verdict(paper_small, tmp_path):
     layout = OutputLayout.create(tmp_path / "r", tmp_path / "f", tmp_path / "t")
     cfg = paper_small.with_overrides(engine={"n_trials": 60})
     out = frequency_by_technique_count.run(cfg, layout, parallel=False)
@@ -130,7 +130,7 @@ def test_c1_frontier_runs_and_reports_verdict(paper_small, tmp_path):
         assert key in out.extra
 
 
-# -- Ma: cost-weight sensitivity (round 4: + diversity weight, + lean-deception) -----
+# -- Cost-weight sensitivity -----------------------------------------------
 def test_cost_weight_settings_vary_all_mutating_weights(paper_small):
     from mtdsim.experiments import cost_weight_sensitivity as cws
 
@@ -140,14 +140,14 @@ def test_cost_weight_settings_vary_all_mutating_weights(paper_small):
     assert len(settings) == 1 + 2 * 2 * 2 * 2 * 3
     control = next(s for s in settings if s["is_control"])
     assert set(control["weights"].values()) == {1.0}
-    # Round 4 (item b): service_diversity (a frontier winner) is now varied too.
+    # service_diversity (a frontier winner) is also varied.
     assert any(s["weights"]["service_diversity"] == 3.0 for s in settings)
     assert any(s["weights"]["port_rotation"] == 3.0 for s in settings)
     assert any(s["weights"]["endpoint_mutation"] == 3.0 for s in settings)
 
 
 def test_lean_deception_sets_in_frontier(paper_small):
-    """Round 4 (item a): the non-cumulative lean-deception sets are frontier candidates."""
+    """The non-cumulative lean-deception sets are frontier candidates."""
     from mtdsim.experiments import frequency_by_technique_count as fbt
 
     labels = {s["label"] for s in fbt._frontier_sets(paper_small)}
@@ -172,7 +172,7 @@ def test_analytic_overhead_matches_actual(paper_small):
 
 
 def test_no_deception_set_cheapest_at_moderate_asp(paper_small, tmp_path):
-    """Round-4 verdict: no deception-containing set is the cheapest lever at the
+    """No deception-containing set is the cheapest lever at the
     moderate ASP targets (0.50, 0.25) in any weight setting, and never at the
     model's baseline weights. (A lean-deception set CAN win at the noisy ASP-0.10
     target in a few expensive-endpoint cells; that boundary is reported, not asserted
@@ -195,7 +195,7 @@ def test_no_deception_set_cheapest_at_moderate_asp(paper_small, tmp_path):
     assert {"port+decep", "port+endp+decep"} <= set(out.extra["deception_containing_sets"])
 
 
-# -- Round 3: decoy-ratio sweep -------------------------------------------
+# -- Decoy-ratio sweep ----------------------------------------------------
 def test_decoy_ratio_sweep_gap_grows_and_stays_positive(paper_small, tmp_path):
     from mtdsim.experiments import decoy_ratio_sweep as drs
     from mtdsim.experiments.common import OutputLayout

@@ -5,7 +5,7 @@ manifest capturing: the resolved configuration, the master seed, the git commit
 (if available), timestamps, the environment (Python + pinned package versions),
 and a SHA-256 hash of every generated figure/table file. Re-running with the
 same config should reproduce identical aggregate numbers; the manifest lets a
-reviewer verify that the artifacts on disk match a given run.
+reader verify that the artifacts on disk match a given run.
 """
 
 from __future__ import annotations

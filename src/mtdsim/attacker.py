@@ -27,9 +27,9 @@ leads to a wasted exploit cycle ending in failure.
 identification accuracy improves only from *informative decoy encounters* —
 committing to and then discarding an actual decoy (``learning_signal =
 decoy_encounters``, the default) — so mutation pressure alone never changes
-accuracy (reviewer item C2a). The legacy ``rounds`` signal, which let any
-forced re-recon raise accuracy, is retained only to reproduce pre-revision
-numbers. A *non-adaptive* attacker restarts with a fixed replanning penalty and
+accuracy. The ``rounds`` signal, which lets any forced re-recon raise accuracy,
+is an alternative kept for comparison. A *non-adaptive* attacker restarts with
+a fixed replanning penalty and
 never learns; with no decoys to disambiguate, the adaptive advantage reduces to
 avoiding that penalty.
 
@@ -81,7 +81,7 @@ class Attacker:
         self.relied_is_real: bool = False
 
         # Experience / uncertainty counters
-        self.rounds_completed: int = 0  # failed cycles total (legacy learning signal)
+        self.rounds_completed: int = 0  # failed cycles total ("rounds" learning signal)
         self.forced_recons: int = 0  # staleness-induced re-recons
         self.wrong_target_failures: int = 0  # identification-error failures
         self.decoys_encountered: int = 0  # decoys committed-to-and-discarded (learning signal)
@@ -119,7 +119,7 @@ class Attacker:
     def _p_correct(self, system: System) -> float:
         """Probability the committed asset is the real target this round.
 
-        Adaptive learning (reviewer item C2a) raises base accuracy only via the
+        Adaptive learning raises base accuracy only via the
         configured ``learning_signal``. With the default ``decoy_encounters``,
         accuracy is invariant to pure mutation pressure: with no decoys the
         signal stays 0, so ``f`` cannot change identification accuracy.

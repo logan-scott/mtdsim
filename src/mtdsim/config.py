@@ -115,18 +115,18 @@ class AttackerConfig:
     learning_rate: float = 0.08
     max_identify_accuracy: float = 0.99
     replan_penalty: int = 6
-    # Source of the adaptive identification-accuracy gain (reviewer item C2a):
+    # Source of the adaptive identification-accuracy gain:
     #   "decoy_encounters" (default) — accuracy improves only from informative
     #       encounters, i.e. committing to and discarding an actual decoy.
-    #   "rounds" — LEGACY: any failed cycle (including an MTD-forced re-recon)
-    #       raises accuracy. Retained only to reproduce pre-revision numbers; it
-    #       perversely lets mutation pressure raise the attacker's accuracy.
+    #   "rounds" — any failed cycle (including an MTD-forced re-recon) raises
+    #       accuracy. Kept for comparison; note that this lets mutation pressure
+    #       raise the attacker's accuracy.
     #   "none" — disable adaptive learning entirely.
     learning_signal: str = "decoy_encounters"
     # Whether the attacker experiences service-diversity identification confusion,
     # decoupled from whether ``service_diversity`` is in the mutating set. ``None``
     # (default) derives it from ``enabled_techniques``; set True/False only for the
-    # diversity-channel decomposition experiment (reviewer item M6).
+    # diversity-channel decomposition experiment.
     diversity_confusion_override: bool | None = None
 
     def validate(self) -> None:

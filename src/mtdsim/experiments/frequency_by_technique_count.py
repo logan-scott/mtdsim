@@ -1,4 +1,4 @@
-"""Reviewer item C1: a real diversity-vs-frequency frontier.
+"""A real diversity-vs-frequency frontier.
 
 Runs the full mutation-frequency sweep *separately* for each cumulative
 technique set (1->5 techniques, derived from the ablation steps), so the
@@ -50,7 +50,7 @@ def _technique_sets(cfg: Config) -> list[dict[str, Any]]:
 
 
 def _extra_technique_sets(cfg: Config) -> list[dict[str, Any]]:
-    """Additional *non-cumulative* candidate sets (reviewer round 4, item a).
+    """Additional *non-cumulative* candidate sets.
 
     The cumulative frontier never tests a lean deception config (cheap invalidation
     + decoy confusion), so ``deception`` only ever appears on the full 5-stack. These
@@ -134,7 +134,7 @@ def _matched_asp_table(summary: pd.DataFrame, asp_targets: list[float]) -> pd.Da
 
 
 def _verdict(summary: pd.DataFrame, ref_label: str) -> dict[str, Any]:
-    """Answer the reviewer's C1 question robustly.
+    """Determine whether technique stacking is cheaper than raising frequency.
 
     Two distinct questions are reported separately:
 

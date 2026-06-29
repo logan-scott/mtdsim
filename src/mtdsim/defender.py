@@ -49,7 +49,7 @@ class Defender:
         # Per-technique cumulative attribute-cells changed. Because
         # total_overhead == per_mutation_cost * sum_t weight[t] * technique_changes[t],
         # these counts let overhead be recomputed under alternate cost weights
-        # WITHOUT re-running the simulation (reviewer item Ma). Tracking them does
+        # WITHOUT re-running the simulation. Tracking them does
         # not consume RNG or alter overhead, so all existing results are unchanged.
         self.technique_changes: dict[str, int] = dict.fromkeys(ALL_TECHNIQUES, 0)
 
